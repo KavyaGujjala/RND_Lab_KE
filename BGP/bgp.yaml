@@ -1,0 +1,88 @@
+name: bgp
+
+mgmt:
+  network: bgp-net
+  ipv4-subnet: 172.16.10.0/24
+
+topology:
+  kinds:
+    linux:
+      image: frrouting/frr:latest
+    ceos:
+      image: ceos:4.31.5M
+
+  nodes:
+    C1:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.10
+    C2:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.20
+
+    D1:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.101
+    D2:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.102
+    D3:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.103
+    D4:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.104
+
+    A1:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.111
+    A2:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.112
+
+    A3:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.113
+
+    A4:
+      kind: ceos
+      mgmt-ipv4: 172.16.10.114
+
+    H1:
+      kind: linux
+      mgmt-ipv4: 172.16.10.201
+    H2:
+      kind: linux
+      mgmt-ipv4: 172.16.10.202
+    H3:
+      kind: linux
+      mgmt-ipv4: 172.16.10.203
+    H4:
+      kind: linux
+      mgmt-ipv4: 172.16.10.204
+
+  links:
+    - endpoints: ["C1:eth1", "D1:eth3"]
+    - endpoints: ["C1:eth2", "D2:eth3"]
+    - endpoints: ["C1:eth3", "D3:eth3"]
+    - endpoints: ["C1:eth4", "D4:eth3"]
+
+    - endpoints: ["C2:eth1", "D1:eth4"]
+    - endpoints: ["C2:eth2", "D2:eth4"]
+    - endpoints: ["C2:eth3", "D3:eth4"]
+    - endpoints: ["C2:eth4", "D4:eth4"]
+
+    - endpoints: ["A1:eth1", "D1:eth1"]
+    - endpoints: ["A1:eth2", "D2:eth1"]
+    - endpoints: ["A1:eth3", "H1:eth1"]
+
+    - endpoints: ["A2:eth1", "D1:eth2"]
+    - endpoints: ["A2:eth2", "D2:eth2"]
+    - endpoints: ["A2:eth3", "H2:eth1"]
+
+    - endpoints: ["A3:eth1", "D3:eth1"]
+    - endpoints: ["A3:eth2", "D4:eth1"]
+    - endpoints: ["A3:eth3", "H3:eth1"]
+
+    - endpoints: ["A4:eth1", "D3:eth2"]
+    - endpoints: ["A4:eth2", "D4:eth2"]
+    - endpoints: ["A4:eth3", "H4:eth1"]

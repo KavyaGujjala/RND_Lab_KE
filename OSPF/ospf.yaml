@@ -1,0 +1,68 @@
+name: ospf
+
+mgmt:
+  network: ospf-net
+  ipv4-subnet: 172.16.100.0/24
+
+topology:
+  kinds:
+    ceos:
+      image: ceos:4.31.5M
+
+  nodes:
+    A1:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.2
+
+    A2:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.3
+
+    A3:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.4
+
+    A4:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.5
+
+    D1:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.106
+    D2:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.107
+    D3:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.108
+    D4:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.109
+
+    C1:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.201
+    C2:
+      kind: ceos
+      mgmt-ipv4: 172.16.100.202
+
+  links:
+    - endpoints: ["A1:eth1", "D1:eth1"]
+    - endpoints: ["A1:eth2", "D2:eth1"]
+    - endpoints: ["A2:eth1", "D1:eth2"]
+    - endpoints: ["A2:eth2", "D2:eth2"]
+
+    - endpoints: ["D1:eth3", "C1:eth1"]
+    - endpoints: ["D1:eth4", "C2:eth1"]
+    - endpoints: ["D2:eth3", "C1:eth2"]
+    - endpoints: ["D2:eth4", "C2:eth2"]
+
+    - endpoints: ["A3:eth1", "D3:eth1"]
+    - endpoints: ["A3:eth2", "D4:eth1"]
+    - endpoints: ["A4:eth1", "D3:eth2"]
+    - endpoints: ["A4:eth2", "D4:eth2"]
+
+    - endpoints: ["D3:eth3", "C1:eth3"]
+    - endpoints: ["D3:eth4", "C2:eth3"]
+    - endpoints: ["D4:eth3", "C1:eth4"]
+    - endpoints: ["D4:eth4", "C2:eth4"]

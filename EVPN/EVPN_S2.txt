@@ -1,0 +1,37 @@
+interface Ethernet1
+   no switchport
+   ip address 192.168.2.1/30
+!
+interface Ethernet2
+   no switchport
+   ip address 192.168.2.5/30
+!
+interface Ethernet3
+   no switchport
+   ip address 192.168.2.9/30
+!
+interface Loopback1
+   ip address 2.2.2.2/32
+!
+ip routing
+!
+ip route 11.11.11.11/32 192.168.2.2
+ip route 12.12.12.12/32 192.168.2.6
+ip route 13.13.13.13/32 192.168.2.10
+!
+router bgp 1
+   neighbor LEAFS peer group
+   neighbor LEAFS update-source Loopback1
+   neighbor LEAFS ebgp-multihop 2
+   neighbor LEAFS send-community
+   neighbor 11.11.11.11 peer group LEAFS
+   neighbor 11.11.11.11 remote-as 11
+   neighbor 12.12.12.12 peer group LEAFS
+   neighbor 12.12.12.12 remote-as 12
+   neighbor 13.13.13.13 peer group LEAFS
+   neighbor 13.13.13.13 remote-as 13
+   !
+   address-family evpn
+      neighbor LEAFS activate
+!
+end

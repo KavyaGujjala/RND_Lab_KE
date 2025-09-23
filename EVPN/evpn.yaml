@@ -1,0 +1,66 @@
+name: evpn-ke
+
+mgmt:
+  network: evpn-net
+  ipv4-subnet: 182.16.10.0/24
+
+topology:
+  kinds:
+    linux:
+      image: mohankumar2301/frr:0.0.2
+    ceos:
+      image: ceos:4.31.5M
+
+  nodes:
+    S1:
+      kind: ceos
+      mgmt-ipv4: 182.16.10.100
+    S2:
+      kind: ceos
+      mgmt-ipv4: 182.16.10.200
+
+    L1:
+      kind: ceos
+      mgmt-ipv4: 182.16.10.10
+
+    L2:
+      kind: ceos
+      mgmt-ipv4: 182.16.10.20
+
+    L3:
+      kind: ceos
+      mgmt-ipv4: 182.16.10.30
+
+    H1:
+      kind: linux
+      mgmt-ipv4: 182.16.10.11
+    H2:
+      kind: linux
+      mgmt-ipv4: 182.16.10.12
+    H3:
+      kind: linux
+      mgmt-ipv4: 182.16.10.13
+    H4:
+      kind: linux
+      mgmt-ipv4: 182.16.10.14
+    H5:
+      kind: linux
+      mgmt-ipv4: 182.16.10.15
+    H6:
+      kind: linux
+      mgmt-ipv4: 182.16.10.16
+  links:
+    - endpoints: ["S1:eth1", "L1:eth1"]
+    - endpoints: ["S1:eth2", "L2:eth1"]
+    - endpoints: ["S1:eth3", "L3:eth1"]
+    - endpoints: ["S2:eth1", "L1:eth2"]
+    - endpoints: ["S2:eth2", "L2:eth2"]
+    - endpoints: ["S2:eth3", "L3:eth2"]
+
+    - endpoints: ["L1:eth3", "H1:eth1"]
+    - endpoints: ["L2:eth3", "H2:eth1"]
+    - endpoints: ["L3:eth3", "H3:eth1"]
+
+    - endpoints: ["L1:eth4", "H4:eth1"]
+    - endpoints: ["L2:eth4", "H5:eth1"]
+    - endpoints: ["L3:eth4", "H6:eth1"]
